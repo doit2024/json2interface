@@ -1,15 +1,15 @@
-/* eslint-disable no-underscore-dangle */
 const ExportEnum = {
   EXPORT: 2, // export
   EXPORT_DEFAULT: 3, // export default
 }
+
 // 接口名称
 let interfaceName = 'Result'
 // 直接拼接基本类型
 const normalTypes = ['string', 'number', 'boolean', 'undefined']
 // 处理数组
-let arrs: { key: string, value: string }[] = []
-let interfaceNames: string[] = []
+let arrs = []
+let interfaceNames = []
 let globalExportMode = ExportEnum.EXPORT_DEFAULT
 let globalInterfaceNamePrefix = ''
 
@@ -25,7 +25,7 @@ function isObject(obj) {
  * @param name 返回字段key
  * @returns {string} 返回处理过的名称
  */
-function _getOnlyInterfaceName(name: string): string {
+function _getOnlyInterfaceName(name) {
   if (!interfaceNames.includes(name)) {
     return name
   }
@@ -40,14 +40,14 @@ function _getOnlyInterfaceName(name: string): string {
 
 }
 
-function _getBaseName(key: string) {
+function _getBaseName(key) {
   const firstName = key.substring(0, 1)
   const lastName = key.substring(1)
 
   return firstName.toUpperCase() + lastName
 }
 
-function _getInterfaceName(key: string) {
+function _getInterfaceName(key) {
   const arr = key.split('_')
 
   for (let i = 0; i < arr.length; i++) {
@@ -60,7 +60,7 @@ function _getInterfaceName(key: string) {
   interfaceNames.push(fullName)
   return fullName
 }
-function toCamelCase(str: string): string {
+function toCamelCase(str) {
   return str.replace(/(^|_)([a-z])/g, (_, __, p1) => p1.toUpperCase())
 }
 /**
@@ -69,7 +69,7 @@ function toCamelCase(str: string): string {
  * @returns {string}
  * @private
  */
-function _getRenderInterface(name: string) {
+function _getRenderInterface(name) {
   const iName = `${globalInterfaceNamePrefix}${toCamelCase(interfaceName)}`
 
   if (globalExportMode === ExportEnum.EXPORT_DEFAULT && name === iName || name === iName) { // export default 只能导出第一级
@@ -78,7 +78,7 @@ function _getRenderInterface(name: string) {
   return `${globalExportMode === ExportEnum.EXPORT ? 'export ' : ''}interface`
 }
 
-function __getRenderInterfaceName(name: string) {
+function __getRenderInterfaceName(name) {
   if (name === globalInterfaceNamePrefix + interfaceName) {
     return `${name}`
   }
@@ -94,11 +94,11 @@ function _getRenderRight() {
   return '}\n'
 }
 
-function _getRenderKey(key: string) {
+function _getRenderKey(key) {
   return `${key}`
 }
 
-function _getRenderValue(value: string) {
+function _getRenderValue(value) {
   return ` ${value};\n`
 }
 
@@ -142,11 +142,11 @@ function _handleArray(json, key, inters, indent) {
       if (normalTypes.includes(typeof json[key][0])) {
         const type = _isBaseType(json[key])
 
-        inters += `${indent}${_getRenderKey(key)}: ${_getRenderValue(type + '[]')}`
+        inters += `${indent}${_getRenderKey(key)}:${_getRenderValue(type + '[]')}`
       } else {
         const interfaceName = _getInterfaceName(key)
 
-        inters += `${indent}${_getRenderKey(key)}: ${_getRenderValue(interfaceName + '[]')}`
+        inters += `${indent}${_getRenderKey(key)}:${_getRenderValue(interfaceName + '[]')}`
         arrs.push({
           key: interfaceName,
           value: json[key][0],
@@ -212,19 +212,9 @@ function _parseJson(json, name, inters, first = true, ind = indent) {
   return inters
 }
 
-/**
- * 导出接口定义
- * @param data json对象
- * @param exportMode 1 不导出 2 导出 3 导出为默认
- * @returns {*}
- */
-export default function interfaceDefinition(data: object, {
+function interfaceDefinition(data, {
   exportInterfaceName,
   interfaceNamePrefix = 'I',
-}: {
-  exportInterfaceName: string;
-  interfaceNamePrefix?: string;
-  exportMode?: ExportEnum;
 }) {
   globalInterfaceNamePrefix = interfaceNamePrefix
   interfaceName = exportInterfaceName
@@ -239,3 +229,5 @@ export default function interfaceDefinition(data: object, {
   }
   return result
 }
+
+module.exports = interfaceDefinition;

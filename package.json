@@ -1,0 +1,27 @@
+{
+  "name": "json2if",
+  "version": "1.0.0",
+  "description": "translate json to interface",
+  "main": "index.js",
+  "bin": {
+    "json2interface": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doit2024/json2interface.git"
+  },
+  "keywords": [
+    "json",
+    "typescript",
+    "interface"
+  ],
+  "author": "wd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/doit2024/json2interface/issues"
+  },
+  "homepage": "https://github.com/doit2024/json2interface#readme"
+}
