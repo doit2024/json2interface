@@ -14,7 +14,7 @@ const { name } = path.parse(dir);
 const json = require(jsonfile);
 
 const content = interfaceDefinition(json, {
-  exportInterfaceName: name,
+  exportInterfaceName: `${name}_json`,
 })
 
-fs.writeFileSync(`${dir}/${name}.type.ts`, content)
+fs.writeFileSync(`${dir}/${name}_json.type.ts`, content)

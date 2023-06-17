@@ -10,7 +10,7 @@ const normalTypes = ['string', 'number', 'boolean', 'undefined']
 // 处理数组
 let arrs = []
 let interfaceNames = []
-let globalExportMode = ExportEnum.EXPORT_DEFAULT
+let globalExportMode = ExportEnum.EXPORT
 let globalInterfaceNamePrefix = ''
 
 // 生成的代码缩进 一个tab
@@ -58,7 +58,7 @@ function _getInterfaceName(key) {
   fullName = globalInterfaceNamePrefix + _getBaseName(fullName)
   fullName = _getOnlyInterfaceName(fullName)
   interfaceNames.push(fullName)
-  return fullName
+  return delS(fullName)
 }
 function toCamelCase(str) {
   return str.replace(/(^|_)([a-z])/g, (_, __, p1) => p1.toUpperCase())
@@ -100,6 +100,10 @@ function _getRenderKey(key) {
 
 function _getRenderValue(value) {
   return ` ${value};\n`
+}
+
+function delS(str) {
+  return str.replace(/s$/, '');
 }
 
 /**
