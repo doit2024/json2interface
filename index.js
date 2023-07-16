@@ -1,20 +1,22 @@
-#!/usr/bin/env node
+const interfaceDefinition = require('./definition')
 
-const fs = require('fs')
-const path = require('path')
+function jsonString2interface(jsonString) {
+  try {
+    const json = JSON.parse(jsonString);
+    json2interface(json);
+  } catch(e) {
+    throw e;
+  }
+}
 
-const interfaceDefinition = require('./interface-definition')
+function json2interface(json) {
+  const content = interfaceDefinition(json, {
+    exportInterfaceName: 'IResult',
+  })
+  console.log(content);
+}
 
-const jsonfile = process.argv[process.argv.length - 1];
-
-const { dir } = path.parse(jsonfile);
-
-const { name } = path.parse(dir);
-
-const json = require(jsonfile);
-
-const content = interfaceDefinition(json, {
-  exportInterfaceName: `${name}_json`,
-})
-
-fs.writeFileSync(`${dir}/${name}_json.type.ts`, content)
+module.exports = {
+  json2interface,
+  jsonString2interface,
+}

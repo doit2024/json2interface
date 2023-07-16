@@ -1,10 +1,10 @@
 {
   "name": "json2if",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "translate json to interface",
   "main": "index.js",
   "bin": {
-    "json2interface": "./index.js"
+    "json2interface": "./script.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
