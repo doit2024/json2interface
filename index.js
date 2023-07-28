@@ -1,13 +1,12 @@
 const interfaceDefinition = require('./definition')
 
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function json2interface(json, uri) {
+function json2interface(json, exportInterfaceName = 'IResult', isDeclare = false) {
   const result = interfaceDefinition(json, {
-    exportInterfaceName: `I${capitalize(uri.dir)}${capitalize(uri.page)}`,
+    exportInterfaceName,
   })
+  if (isDeclare) {
+    return result.replace(/export\s/g, 'declare ');
+  }
   return result;
 }
 
