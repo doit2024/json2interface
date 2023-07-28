@@ -1,22 +1,16 @@
 const interfaceDefinition = require('./definition')
 
-function jsonString2interface(jsonString) {
-  try {
-    const json = JSON.parse(jsonString);
-    json2interface(json);
-  } catch(e) {
-    throw e;
-  }
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function json2interface(json) {
-  const content = interfaceDefinition(json, {
-    exportInterfaceName: 'IResult',
+function json2interface(json, uri) {
+  const result = interfaceDefinition(json, {
+    exportInterfaceName: `I${capitalize(uri.dir)}${capitalize(uri.page)}`,
   })
-  console.log(content);
+  return result;
 }
 
 module.exports = {
   json2interface,
-  jsonString2interface,
 }
